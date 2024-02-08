@@ -1,4 +1,4 @@
-package study.myshop.web.dto;
+package study.myshop.web.dto.member;
 
 import lombok.Data;
 

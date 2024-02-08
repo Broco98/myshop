@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import study.myshop.domain.member.Seller;
 import study.myshop.service.SellerService;
-import study.myshop.web.dto.SellerJoinForm;
-
-import java.time.LocalDateTime;
+import study.myshop.web.dto.member.SellerJoinForm;
 
 @Slf4j
 @Controller
