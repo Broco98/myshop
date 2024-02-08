@@ -1,5 +1,6 @@
 package study.myshop.domain.member;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 

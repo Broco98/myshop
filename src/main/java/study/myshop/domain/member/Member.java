@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity @Getter @Setter(AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn()
 public class Member {
 
     @Id @GeneratedValue

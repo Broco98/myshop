@@ -27,11 +27,4 @@ public class SellerRepository {
         return em.find(Seller.class, id);
     }
 
-    public List<Seller> findByUserNameAndPassword(String username, String password) {
-        return em.createQuery("select s from Seller s where username=:username and password=:password", Seller.class)
-                .setParameter("username", username)
-                .setParameter("password", password)
-                .getResultList();
-    }
-
 }
