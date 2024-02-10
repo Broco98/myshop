@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymleaf.org" class="w-100 h-100">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>회원가입</title>
+</head>
+<body class="w-100 h-100">
+    <nav th:insert="~{template/fragment/navbar :: navbar}"></nav>
+
+    <div class="d-flex align-items-center h-100 w-100 mx-auto">
+        <div class="container justify-content-center mx-auto row">
+            <div class="card col-md-3 me-3 text-center">
+                <div class="card-header">Customer</div>
+                <div class="card-body">소비자 회원가입</div>
+                <a class="btn btn-primary" href="customer/join">소비자</a>
+            </div>
+
+            <div class="card col-md-3 me-3 text-center">
+                <div class="card-header">Seller</div>
+                <div class="card-body">판매자 회원가입</div>
+                <a class="btn btn-primary" href="seller/join">판매자</a>
+            </div>
+
+            <div class="card col-md-3 text-center">
+                <div class="card-header">Admin</div>
+                <div class="card-body">관리자 회원가입</div>
+                <a class="btn btn-primary" href="admin/join">회원가입</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

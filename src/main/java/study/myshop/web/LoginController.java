@@ -21,6 +21,11 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("join")
+    public String joinForm() {
+        return "join";
+    }
+
     @PostMapping("login")
     public String login(LoginForm form) {
         Member findMember = memberService.login(form.getUsername(), form.getPassword());

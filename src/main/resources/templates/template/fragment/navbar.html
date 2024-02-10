@@ -5,13 +5,20 @@
     <title>Title</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet"></head>
 <body>
-
-  <nav class="navbar bg-dark navbar-dark fixed-top" th:fragment="navbar">
-      <div class="container-fluid justify-content-md-center">
-          <a class="navbar-brand" href="#">Brand</a>
-      </div>
-
-  </nav>
+    <nav class="navbar bg-dark navbar-dark fixed-top" th:fragment="navbar">
+        <div class="container-fluid justify-content-md-center">
+            <a class="navbar-brand col-md-3" href="/">myshop</a>
+            <ul class="navbar-nav bg-dark col-md-3">
+                <li class="nav-item me-2">
+                    <a class = "nav-link" href="#">메뉴1</a>
+                </li>
+            </ul>
+            <div class="col-md-3 text-end">
+                <button class="btn btn-primary me-2" onclick="location.href='/login'">로그인</button>
+                <button class="btn btn-primary" onclick="location.href='/join'">회원가입</button>
+            </div>
+        </div>
+    </nav>
 
 </body>
 </html>
