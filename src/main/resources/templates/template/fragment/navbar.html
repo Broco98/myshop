@@ -13,9 +13,16 @@
                     <a class = "nav-link" href="#">메뉴1</a>
                 </li>
             </ul>
-            <div class="col-md-3 text-end">
-                <button class="btn btn-primary me-2" onclick="location.href='/login'">로그인</button>
-                <button class="btn btn-primary" onclick="location.href='/join'">회원가입</button>
+            <div class="col-md-3 text-end align-content-center">
+                <form class="d-inline-block" action="/logout" method="post">
+                    <button class="btn btn-primary" th:if="${loginMember != null}">로그아웃</button>
+                </form>
+                <form class="d-inline-block me-2" action="/login" method="get">
+                    <button class="btn btn-primary" th:if="${loginMember == null}">로그인</button>
+                </form>
+                <form class="d-inline-block" action="/join" method="get">
+                    <button class="btn btn-primary" th:if="${loginMember == null}">회원가입</button>
+                </form>
             </div>
         </div>
     </nav>
