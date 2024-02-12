@@ -15,13 +15,13 @@
             </ul>
             <div class="col-md-3 text-end align-content-center">
                 <form class="d-inline-block" action="/logout" method="post">
-                    <button class="btn btn-primary" th:if="${loginMember != null}">로그아웃</button>
+                    <button class="btn btn-primary" th:if="${session.loginMember != null}">로그아웃</button>
                 </form>
                 <form class="d-inline-block me-2" action="/login" method="get">
-                    <button class="btn btn-primary" th:if="${loginMember == null}">로그인</button>
+                    <button class="btn btn-primary" th:if="${session.loginMember == null}">로그인</button>
                 </form>
                 <form class="d-inline-block" action="/join" method="get">
-                    <button class="btn btn-primary" th:if="${loginMember == null}">회원가입</button>
+                    <button class="btn btn-primary" th:if="${session.loginMember == null}">회원가입</button>
                 </form>
             </div>
         </div>
