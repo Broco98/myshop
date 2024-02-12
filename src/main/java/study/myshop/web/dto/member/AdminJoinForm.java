@@ -1,14 +1,23 @@
 package study.myshop.web.dto.member;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class AdminJoinForm {
 
+    @NotBlank
     private String username;
-    private String password;
-    private String name;
-    private String phoneNumber;
-    private String nickName;
 
+    @NotBlank
+    private String password;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String phoneNumber;
+
+    @NotBlank
+    private String nickName;
 }

@@ -13,9 +13,9 @@ public class SellerRepository {
 
     private final EntityManager em;
 
-    public Seller save(Seller Seller) {
-        em.persist(Seller);
-        return Seller;
+    public Seller save(Seller seller) {
+        em.persist(seller);
+        return seller;
     }
 
     public List<Seller> findAll() {

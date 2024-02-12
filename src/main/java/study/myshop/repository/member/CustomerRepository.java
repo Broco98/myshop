@@ -14,9 +14,9 @@ public class CustomerRepository {
 
     private final EntityManager em;
 
-    public Customer save(Customer Customer) {
-        em.persist(Customer);
-        return Customer;
+    public Customer save(Customer customer) {
+        em.persist(customer);
+        return customer;
     }
 
     public List<Customer> findAll() {

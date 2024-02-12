@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class="w-100 h-100" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 등록</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="w-100 h-100">
+<nav th:insert="~{template/fragment/navbar :: navbar}"></nav>
+
+<div class="d-flex align-items-center h-100 w-100">
+    <div class="container m-auto" style="width: 540px">
+        <h3 class="mb-3">상품 등록</h3>
+        <form method="post">
+            <div class="mb-3">
+                <label for="itemName" class="form-label">상품명</label>
+                <input type="text" class="form-control" placeholder="Item Name" id="itemName" name="itemName" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="salesQuantityGram">단위 판매량(gram)</label>
+                <input class="form-control" type="text" placeholder="salesQuantityGram" id="salesQuantityGram" name="salesQuantityGram" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="salesQuantityNum">단위 판매량(갯수)</label>
+                <input class="form-control" type="text" placeholder="salesQuantityNum" id="salesQuantityNum" name="salesQuantityNum" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="originalPrice">가격 </label>
+                <input class="form-control" type="text" placeholder="originalPrice" id="originalPrice" name="originalPrice" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="stock">재고 (갯수)</label>
+                <input class="form-control" type="text" placeholder="stock" id="stock" name="stock" required>
+            </div>
+
+            <div class="mb-5">
+                <label class="form-label" for="description">상품 설명</label>
+                <input class="form-control" type="tel" placeholder="description" id="description" name="description" required>
+            </div>
+
+            <button class="btn-primary btn btn-lg w-100" type="submit">등록</button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -28,9 +28,10 @@ public class MemberController {
             @SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember
     ) {
 
-//        if (loginMember != null){
-//            return "redirect:/";
-//        }
+        if (loginMember != null){
+            log.info("session exit");
+            return "redirect:/";
+        }
 
         return "login";
     }
@@ -40,9 +41,10 @@ public class MemberController {
             @SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember
     ) {
 
-//        if (loginMember != null) {
-//            return "redirect:/";
-//        }
+        if (loginMember != null) {
+            log.info("session exit");
+            return "redirect:/";
+        }
 
         return "join";
     }
@@ -54,13 +56,9 @@ public class MemberController {
             return "login";
         }
 
-        if (request.getSession() != null) {
-            return "redirect:/";
-        }
-
         try {
             Member findMember = memberService.login(form.getUsername(), form.getPassword());
-//            log.info("Login member={}", findMember); // Customer로그인 -> Customer가 반환됨
+            log.info("Login member={}", findMember); // Customer로그인 -> Customer가 반환됨
             HttpSession session = request.getSession();
             LoginMember loginMember = new LoginMember(findMember.getId(), findMember.getClass().getSimpleName());
 
