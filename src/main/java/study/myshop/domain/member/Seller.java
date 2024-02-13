@@ -1,29 +1,55 @@
 package study.myshop.domain.member;
 
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import study.myshop.domain.Address;
+import study.myshop.domain.item.Item;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity @Getter
+@Entity
+@DiscriminatorValue("seller")
+@ToString(callSuper = true)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Seller extends Member{
 
+    // 상호명
+    @Column(nullable = false)
     private String businessName;
+
+    // 상호정보
     private String businessInfo;
-    private String address;
+
+    // 좋아요 수
     private Integer likeNum;
+    
+    // == 생성 메서드 ==
+    public static Seller createSeller(String username, String password, String name, String phoneNumber) {
+        Seller seller = new Seller();
+        seller.setUsername(username);
+        seller.setPassword(password);
+        seller.setName(name);
+        seller.setPhoneNumber(phoneNumber);
+        
+        // 기본 설정
+        seller.setCreateDate(LocalDateTime.now());
+        seller.setStopDate(null);
+        seller.setDeleteDate(null);
+        seller.likeNum = 0;
+        return seller;
+    }
 
-    public Seller() {}
-
-    public Seller(String username, String password, String name, String phoneNumber) {
-        setUsername(username);
-        setPassword(password);
-        setName(name);
-        setPhoneNumber(phoneNumber);
-        setJoinDate(LocalDateTime.now());
-        setWithdrawalDate(null);
-        setStopDate(null);
+    // == 비즈니스 로직 ==
+    public void setBusiness(String businessName, String businessInfo) {
+        this.businessName = businessName;
+        this.businessInfo = businessInfo;
     }
 
 }

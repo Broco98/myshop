@@ -29,7 +29,6 @@ public class MemberController {
     ) {
 
         if (loginMember != null){
-            log.info("session exit");
             return "redirect:/";
         }
 
@@ -42,7 +41,6 @@ public class MemberController {
     ) {
 
         if (loginMember != null) {
-            log.info("session exit");
             return "redirect:/";
         }
 
@@ -62,7 +60,7 @@ public class MemberController {
             HttpSession session = request.getSession();
             LoginMember loginMember = new LoginMember(findMember.getId(), findMember.getClass().getSimpleName());
 
-            log.info("LoginMember id={}, DTYPE={}", findMember.getId(), findMember.getClass().getSimpleName());
+            log.info("LoginMember id={}, dtype={}", findMember.getId(), findMember.getClass().getSimpleName());
 
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         } catch(MemberNotFoundException e) {

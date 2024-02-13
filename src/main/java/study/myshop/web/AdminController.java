@@ -10,29 +10,35 @@ import study.myshop.domain.member.Admin;
 import study.myshop.domain.member.Customer;
 import study.myshop.service.AdminService;
 import study.myshop.service.CustomerService;
+import study.myshop.web.dto.member.AdminJoinForm;
 import study.myshop.web.dto.member.CustomerJoinForm;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("join")
+    @GetMapping("/join")
     public String joinForm() {
-        return "customer/join";
+        return "join";
     }
 
-    @PostMapping("join")
-    public String join(CustomerJoinForm form) {
+    @PostMapping("/join")
+    public String join(AdminJoinForm form) {
         log.info("form={}", form);
 
-        Admin admin = new Admin(form.getUsername(), form.getPassword(), form.getName(), form.getPhoneNumber(), form.getNickName());
+        Admin admin = new Admin(
+                form.getUsername(),
+                form.getPassword(),
+                form.getName(),
+                form.getPhoneNumber(),
+                form.getNickName());
         adminService.save(admin);
 
-        return "home";
+        return "redirect:/";
     }
 
 }

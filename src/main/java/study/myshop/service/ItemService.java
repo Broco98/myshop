@@ -23,8 +23,6 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-
-
     public Item add(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         Item item = new Item(seller, name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
         itemRepository.save(item);

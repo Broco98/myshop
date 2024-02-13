@@ -2,9 +2,10 @@ package study.myshop.domain.item;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.ToString;
 
 @Entity
-@Getter
+@ToString @Getter
 public class ItemHashTag {
 
     @Id @GeneratedValue
@@ -16,6 +17,6 @@ public class ItemHashTag {
     private Item item;
 
     private String tag;
-    
+
     // TODO -> 생성
 }

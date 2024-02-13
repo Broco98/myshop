@@ -30,7 +30,7 @@ public class ItemController {
             @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember
             ) {
 
-        if (loginMember != null && loginMember.getDTYPE().equals("Seller")){
+        if (loginMember != null && loginMember.getDtype().equals("Seller")){
             return "item/add";
         }
 
@@ -43,7 +43,7 @@ public class ItemController {
             @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
             ItemAddForm form) {
 
-        if (loginMember == null || !loginMember.getDTYPE().equals("Seller")){
+        if (loginMember == null || !loginMember.getDtype().equals("Seller")){
             return "redirect:/";
         }
         

@@ -22,7 +22,7 @@ public class MemberService {
 
     public Member login(String username, String password) {
 
-        List<Member> result = memberRepository.findByUserNameAndPassword(username, password);
+        List<Member> result = memberRepository.findByUsernameAndPassword(username, password);
         if (result.isEmpty())
             throw new MemberNotFoundException("사용자를 찾을 수 없습니다");
 

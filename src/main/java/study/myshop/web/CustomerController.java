@@ -15,24 +15,29 @@ import study.myshop.web.dto.member.SellerJoinForm;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("customer")
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping("join")
+    @GetMapping("/join")
     public String joinForm() {
         return "customer/join";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public String join(CustomerJoinForm form) {
         log.info("form={}", form);
 
-        Customer customer = new Customer(form.getUsername(), form.getPassword(), form.getName(), form.getPhoneNumber(), form.getNickName());
+        Customer customer = new Customer(
+                form.getUsername(),
+                form.getPassword(),
+                form.getName(),
+                form.getPhoneNumber(),
+                form.getNickName());
         customerService.save(customer);
 
-        return "home";
+        return "redirect:/";
     }
 
 }

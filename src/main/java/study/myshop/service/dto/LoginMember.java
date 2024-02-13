@@ -1,17 +1,18 @@
 package study.myshop.service.dto;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginMember {
 
     private Long id;
-    private String DTYPE;
+    private String dtype;
 
-    protected LoginMember() {}
-
-    public LoginMember(Long id, String DTYPE) {
+    public LoginMember(Long id, String dtype) {
         this.id = id;
-        this.DTYPE = DTYPE;
+        this.dtype = dtype;
     }
 }

@@ -1,7 +1,10 @@
 package study.myshop.domain.item;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import study.myshop.domain.BasicDate;
 import study.myshop.domain.member.Seller;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Item {
 
     @Id @GeneratedValue
@@ -22,13 +27,14 @@ public class Item {
     @JoinColumn(name = "member_id")
     private Seller seller;
 
+    @Column(nullable = false)
     private String name;                    // 상품명
     
     // TODO 수정 예정
     private Integer salesQuantityGram;      // 판매 수량 (단위: gram)
     private Integer salesQuantityNum;       // 판매 수량 (단위: 갯수)
 
-    private Integer originalPrice;          // 원래 가격
+    private Integer originalPrice;          // 가격
     private Integer salesPrice;             // 판매 가격
     private Integer stock;                  // 재고
 
@@ -44,16 +50,15 @@ public class Item {
     private BasicDate date;                 // 생성, 수정, 삭제일
 
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemMarker> markers = new ArrayList<>();       // 마크들
+    private List<ItemMarker> markers = new ArrayList<>();       // 마크
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemHashTag> hashtags = new ArrayList<>();     // 태그들
+    private List<ItemHashTag> hashtags = new ArrayList<>();     // 태그
     
     // TODO Image 추가 예정
-
-    protected Item() {}
-
     public Item(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         this.seller = seller;
         this.name = name;

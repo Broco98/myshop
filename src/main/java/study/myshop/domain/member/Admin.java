@@ -1,27 +1,39 @@
 package study.myshop.domain.member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Entity @Getter
+@Entity
+@DiscriminatorValue("admin")
+@ToString(callSuper = true) // Member의 변수들도 나오도록
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Admin extends Member{
 
-    private String nickName;
+    @Column(nullable = false)
+    private String nickName;        // 별명
 
-    public Admin() {}
 
-    public Admin(String username, String password, String name, String phoneNumber, String nickName) {
-        setUsername(username);
-        setPassword(password);
-        setName(name);
-        setPhoneNumber(phoneNumber);
-        setJoinDate(LocalDateTime.now());
-        setWithdrawalDate(null);
-        setStopDate(null);
-        this.nickName = nickName;
+    // == 생성 메서드 ==
+    public static Admin createAdmin(String username, String password, String name, String phoneNumber, String nickName) {
+        Admin admin = new Admin();
+        admin.setUsername(username);
+        admin.setPassword(password);
+        admin.setName(name);
+        admin.setPhoneNumber(phoneNumber);
+        admin.nickName = nickName;
+
+        // 기본 설정
+        admin.setCreateDate(LocalDateTime.now());
+        admin.setStopDate(null);
+        admin.setDeleteDate(null);
+        return admin;
     }
-
 }

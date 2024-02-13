@@ -2,8 +2,10 @@ package study.myshop.domain.item;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.ToString;
 
-@Entity @Getter
+@Entity
+@ToString @Getter
 public class ItemMarker {
 
     @Id @GeneratedValue
@@ -14,7 +16,7 @@ public class ItemMarker {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private String marker;
+    private Marker marker;
     
     // TODO -> 생성
 }

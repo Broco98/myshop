@@ -14,12 +14,10 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(
-            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
-            Model model
+//            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
+//            Model model
     ) {
-        if (loginMember != null) {
-            model.addAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        }
+
 
         return "home";
     }
