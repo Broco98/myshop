@@ -81,4 +81,15 @@ public class ItemService {
         item.addHashTag(tag);
     }
 
+    @Transactional
+    public void startSale(Long itemId) {
+        Item item = itemRepository.findById(itemId);
+        item.startSale();;
+    }
+
+    @Transactional void stopSale(Long itemId) {
+        Item item = itemRepository.findById(itemId);
+        item.stopSale();
+    }
+
 }

@@ -40,11 +40,11 @@ public class MemberService {
 
     public Member login(String username, String password) {
 
-        List<Member> result = memberRepository.findByUsernameAndPassword(username, password);
-        if (result.isEmpty())
+        List<Member> findMembers = memberRepository.findByUsernameAndPassword(username, password);
+        if (findMembers.isEmpty())
             throw new MemberNotFoundException("사용자를 찾을 수 없습니다");
 
-        return result.get(0);
+        return findMembers.get(0);
     }
 
     public Member findById(Long id) {

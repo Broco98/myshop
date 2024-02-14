@@ -21,14 +21,14 @@ import java.util.List;
 public class Seller extends Member{
 
     // 상호명
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String businessName;
 
     // 상호정보
     private String businessInfo;
 
     // 좋아요 수
-    private Integer likeNum;
+    private Integer likes;
     
     // == 생성 메서드 ==
     public static Seller createSeller(String username, String password, String name, String phoneNumber) {
@@ -42,7 +42,7 @@ public class Seller extends Member{
         seller.setCreateDate(LocalDateTime.now());
         seller.setStopDate(null);
         seller.setDeleteDate(null);
-        seller.likeNum = 0;
+        seller.likes = 0;
         return seller;
     }
 

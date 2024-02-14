@@ -58,6 +58,8 @@ public class Item {
     
     // TODO -> image 추가 예정
     
+    // TODO -> item 삭제 추가 예정
+    
     // == 생성자 ===
     // TODO -> image 추가 예정
     public static Item createItem(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
@@ -74,7 +76,6 @@ public class Item {
         // 기본 설정
         itemEntity.likes = 0;
         itemEntity.views = 0;
-        itemEntity.date.setCreateDate(LocalDateTime.now());
         itemEntity.date = BasicDate.createBasicDate();
         itemEntity.status = ItemStatus.STOP;
 
