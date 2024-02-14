@@ -36,7 +36,7 @@ public class Member {
     private String phoneNumber;
 
     // 주소
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> address = new ArrayList<>();
 
 
@@ -50,5 +50,9 @@ public class Member {
     public void addAddress(Address address) {
         this.address.add(address);
         address.setMember(this);
+    }
+
+    public void removeAddress(Address address) {
+        this.address.remove(address);
     }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import study.myshop.domain.Address;
 import study.myshop.domain.member.Admin;
 import study.myshop.domain.member.Customer;
 import study.myshop.domain.member.Member;
@@ -45,6 +46,17 @@ public class MemberService {
             throw new MemberNotFoundException("사용자를 찾을 수 없습니다");
 
         return findMembers.get(0);
+    }
+
+    // TODO -> address를 풀어서 전달 vs address 자체를 전달
+    public void addAddress(Long memberId, Address address) {
+        Member findMember = memberRepository.findById(memberId);
+        findMember.addAddress(address);
+    }
+
+    public void removeAddress(Long memberId, Address address) {
+        Member findMember = memberRepository.findById(memberId);
+        findMember.removeAddress(address);
     }
 
     public Member findById(Long id) {
