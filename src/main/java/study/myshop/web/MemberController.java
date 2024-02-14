@@ -5,14 +5,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import study.myshop.domain.member.Member;
 import study.myshop.service.MemberService;
-import study.myshop.service.dto.LoginMember;
+import study.myshop.web.dto.member.LoginMember;
 import study.myshop.service.exception.MemberNotFoundException;
 import study.myshop.web.dto.member.LoginForm;
 

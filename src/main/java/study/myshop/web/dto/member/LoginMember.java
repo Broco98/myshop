@@ -1,4 +1,4 @@
-package study.myshop.service.dto;
+package study.myshop.web.dto.member;
 
 import lombok.AccessLevel;
 import lombok.Data;

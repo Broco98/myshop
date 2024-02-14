@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import study.myshop.domain.item.Item;
 import study.myshop.domain.member.Seller;
 import study.myshop.repository.member.SellerRepository;
 import study.myshop.service.ItemService;
-import study.myshop.service.MemberService;
 import study.myshop.service.SellerService;
-import study.myshop.service.dto.LoginMember;
+import study.myshop.web.dto.member.LoginMember;
 import study.myshop.web.dto.item.ItemAddForm;
 
 @Slf4j

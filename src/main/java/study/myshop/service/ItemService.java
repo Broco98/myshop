@@ -5,22 +5,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.myshop.domain.item.Item;
+import study.myshop.domain.item.ItemHashTag;
+import study.myshop.domain.item.ItemMarker;
 import study.myshop.domain.item.Marker;
 import study.myshop.domain.member.Seller;
-import study.myshop.repository.ItemRepository;
-import study.myshop.repository.member.MemberRepository;
+import study.myshop.repository.item.ItemHashTagRepository;
+import study.myshop.repository.item.ItemMarkerRepository;
+import study.myshop.repository.item.ItemRepository;
 import study.myshop.repository.member.SellerRepository;
-import study.myshop.web.dto.item.ItemAddForm;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final ItemMarkerRepository itemMarkerRepository;
+    private final ItemHashTagRepository itemHashTagRepository;
     private final SellerRepository sellerRepository;
     
     // TODO -> 페이징 추가 예정, search 추가 예정
@@ -28,22 +33,52 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public Item findById(Long itemId) {
+        return itemRepository.findById(itemId);
+    }
+
+    @Transactional
     public Long addItem(Long sellerId, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
-        Seller seller = sellerRepository.findById(sellerId);
+        Seller seller = sellerRepository.findById(sellerId).orElseThrow();
         Item item = Item.createItem(seller, name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
-        itemRepository.save(item);
+        itemRepository.save(item); // persist 일 때 id가 생성됨 (전략)
         return item.getId();
     }
 
+    @Transactional
+    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
     public void updateItem(Long itemId, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         Item item = itemRepository.findById(itemId);
         item.update(name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
-
     }
-    
-    // 하나의 마커를 추가한다
-    public void addItemMarker(Long itemId, Marker marker) {
+
+    @Transactional
+    // 하나의 마커를 추가
+    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
+    public void addMarker(Long itemId, Marker marker) {
         Item item = itemRepository.findById(itemId);
+        ItemMarker itemMarker = ItemMarker.craeteItemMarker(marker);
+        item.addMarker(marker);
+    }
+
+    @Transactional
+    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
+    public void removeMarker(Long itemId, Marker marker) {
+        Item item = itemRepository.findById(itemId);
+        item.removeMarker(marker);
+    }
+
+    @Transactional
+    // 하나의 해시태그 추가
+    public void addHashTag(Long itemId, String tag) {
+        Item item = itemRepository.findById(itemId);
+        item.addHashTag(tag);
+    }
+
+    @Transactional
+    public void removeHashTag(Long itemId, String tag) {
+        Item item = itemRepository.findById(itemId);
+        item.addHashTag(tag);
     }
 
 }

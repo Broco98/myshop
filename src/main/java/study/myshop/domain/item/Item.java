@@ -28,7 +28,8 @@ public class Item {
     @Column(nullable = false)
     private String name;                    // 상품명
     
-    // TODO 수정 예정
+    // TODO -> [판매수량 / 판매가격] 세트로 만들 순 없나? 보통 쇼핑몰을 보면 그렇게 진행하는 것 같은대
+    // ex [1개 3만원], [2개, 5만원] 이런 식으로 선택하도록 -> 고민해 봅시다
     private Integer salesQuantityGram;      // 판매 수량 (단위: gram)
     private Integer salesQuantityNum;       // 판매 수량 (단위: 갯수)
 
@@ -49,14 +50,16 @@ public class Item {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ItemMarker> markers = new HashSet<>();       // 마크
+    private Set<ItemMarker> itemMarkers = new HashSet<>();       // 마크
 
     @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ItemHashTag> hashtags = new HashSet<>();     // 태그
-
+    private Set<ItemHashTag> itemHashtags = new HashSet<>();     // 태그
+    
+    // TODO -> image 추가 예정
+    
     // == 생성자 ===
-    // TODO Image 추가 예정
+    // TODO -> image 추가 예정
     public static Item createItem(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         Item itemEntity = new Item();
         itemEntity.seller = seller;
@@ -127,38 +130,43 @@ public class Item {
         this.originalPrice = originalPrice;
     }
 
-    public void increaseOneView() {
+    public void increaseView() {
         this.views++;
     }
 
-    public void increaseOneLike() {
+    public void increaseLike() {
         this.likes++;
     }
 
     // == 연관관계 메서드 ==
-    public void addMarker(ItemMarker itemMarker) {
-        markers.add(itemMarker);
+    // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
+    public void addMarker(Marker marker) {
+        ItemMarker itemMarker = ItemMarker.craeteItemMarker(marker);
+        itemMarkers.add(ItemMarker.craeteItemMarker(marker));
         itemMarker.setItem(this);
+        this.date.setUpdateDate(LocalDateTime.now()); // TODO -> MapedSuperClass로 번경?
+    }
+
+    // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
+    public void removeMarker(Marker marker) {
+        itemMarkers.removeIf(itemMarker -> itemMarker.getMarker() == marker);
+//        for (ItemMarker itemMarker : itemMarkers) {
+//            if (itemMarker.getMarker() == marker) {
+//                itemMarkers.remove(itemMarker);
+//            }
+//        }
         this.date.setUpdateDate(LocalDateTime.now());
     }
 
-    public void removeMarker(ItemMarker itemMarker) {
-        if (!markers.isEmpty() && markers.contains(itemMarker)) {
-            markers.remove(itemMarker);
-            this.date.setUpdateDate(LocalDateTime.now());
-        }
-    }
-
-    public void addHashTag(ItemHashTag itemHashTag) {
-        hashtags.add(itemHashTag);
+    public void addHashTag(String tag) {
+        ItemHashTag itemHashTag = ItemHashTag.craeteItemHashTag(tag);
+        itemHashtags.add(itemHashTag);
         itemHashTag.setItem(this);
         this.date.setUpdateDate(LocalDateTime.now());
     }
 
-    public void removeHashTag(ItemHashTag itemHashTag) {
-        if (!hashtags.isEmpty() && hashtags.contains(itemHashTag)) {
-            hashtags.remove(itemHashTag);
-            this.date.setUpdateDate(LocalDateTime.now());
-        }
+    public void removeHashTag(String tag) {
+        itemHashtags.removeIf(itemHashTag -> itemHashTag.getTag().equals(tag));
+        this.date.setUpdateDate(LocalDateTime.now());
     }
 }

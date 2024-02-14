@@ -1,4 +1,4 @@
-package study.myshop.repository;
+package study.myshop.repository.item;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,9 @@ public class ItemRepository {
 
     private final EntityManager em;
 
-    public Item save(Item item) {
+    public Long save(Item item) {
         em.persist(item);
-        return item;
+        return item.getId();
     }
 
     public Item findById(Long id) {
@@ -26,6 +26,5 @@ public class ItemRepository {
         return em.createQuery("select i from Item i", Item.class)
                 .getResultList();
     }
-    
-    // TODO -> update 추가 예정
+
 }
