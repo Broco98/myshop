@@ -46,7 +46,7 @@ public class Member {
     private LocalDateTime deleteDate;   // 탈퇴일 -> 탈퇴일이 존재할 경우 탈퇴상태
 
 
-    // == 관계 메서드 ==
+    // == 연관관계 메서드 ==
     public void addAddress(Address address) {
         this.address.add(address);
         address.setMember(this);

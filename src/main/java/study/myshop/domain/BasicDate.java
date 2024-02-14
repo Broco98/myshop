@@ -18,4 +18,11 @@ public class BasicDate {
     private LocalDateTime updateDate;   // 수정일
     private LocalDateTime deleteDate;   // 삭제일
 
+    // == 생성자 ==
+    public static BasicDate createBasicDate() {
+        BasicDate basicDate = new BasicDate();
+        basicDate.createDate = LocalDateTime.now();
+        return basicDate;
+    }
+
 }

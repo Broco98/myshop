@@ -1,22 +1,28 @@
 package study.myshop.domain.item;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @ToString @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemHashTag {
 
     @Id @GeneratedValue
     @Column(name = "item_hashtag_id")
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
     private String tag;
 
-    // TODO -> 생성
+    // == 생성자 ==
+    public static ItemHashTag craeteItemHashTag(String tag) {
+        ItemHashTag itemHashTag = new ItemHashTag();
+        itemHashTag.tag = tag;
+        return itemHashTag;
+    }
 }

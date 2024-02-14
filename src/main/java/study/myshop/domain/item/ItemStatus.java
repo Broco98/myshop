@@ -1,5 +1,11 @@
 package study.myshop.domain.item;
 
 public enum ItemStatus {
-    SALE, STOP
+    SALE("판매"), STOP("중지");
+
+    final String description;
+
+    ItemStatus(String description) {
+        this.description = description;
+    }
 }
