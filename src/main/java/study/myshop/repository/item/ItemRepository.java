@@ -27,4 +27,10 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public List<Item> findByIdIn(Long[] ids) {
+        return em.createQuery("select i from Item i where i.id in :ids", Item.class)
+                .setParameter("ids", ids)
+                .getResultList();
+    }
+
 }

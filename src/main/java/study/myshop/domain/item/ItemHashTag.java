@@ -17,6 +17,7 @@ public class ItemHashTag {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Column(nullable = false)
     private String tag;
 
     // == 생성자 ==

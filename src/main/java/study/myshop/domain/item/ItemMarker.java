@@ -17,6 +17,7 @@ public class ItemMarker {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Column(nullable = false)
     private Marker marker;
 
     // == 생성자 ==

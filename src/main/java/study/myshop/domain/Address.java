@@ -1,6 +1,7 @@
 package study.myshop.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import study.myshop.domain.member.Member;
 public class Address {
 
     @Id @GeneratedValue
+    @Column(name = "address_id")
     private Long id;
 
     @Setter
@@ -20,6 +22,7 @@ public class Address {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(nullable = false)
     private String address;
 
     // == 생성 메서드 ==
