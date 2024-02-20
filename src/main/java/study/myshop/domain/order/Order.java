@@ -24,7 +24,7 @@ public class Order {
     
     // 주문한 사람
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn("member_id")
+    @JoinColumn(name = "member_id")
     private Customer customer;
 
     // 주문 아이템

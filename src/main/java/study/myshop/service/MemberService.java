@@ -1,7 +1,6 @@
 package study.myshop.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.myshop.domain.Address;
@@ -13,7 +12,7 @@ import study.myshop.repository.member.AdminRepository;
 import study.myshop.repository.member.CustomerRepository;
 import study.myshop.repository.member.MemberRepository;
 import study.myshop.repository.member.SellerRepository;
-import study.myshop.service.exception.MemberNotFoundException;
+import study.myshop.exception.MemberNotFoundException;
 
 import java.util.List;
 

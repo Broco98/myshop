@@ -1,4 +1,4 @@
-package study.myshop.service.exception;
+package study.myshop.exception;
 
 public class MemberNotFoundException extends RuntimeException{
 

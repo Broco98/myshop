@@ -14,12 +14,12 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-//    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @Setter
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn("address_id")
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Enumerated(EnumType.STRING)

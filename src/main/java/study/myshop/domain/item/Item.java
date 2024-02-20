@@ -131,12 +131,16 @@ public class Item {
         this.originalPrice = originalPrice;
     }
 
-    public void increaseView() {
+    public void increaseViews() {
         this.views++;
     }
 
-    public void increaseLike() {
+    public void increaseLikes() {
         this.likes++;
+    }
+
+    public void decreaseLikes() {
+        this.likes--;
     }
 
     // == 연관관계 메서드 ==

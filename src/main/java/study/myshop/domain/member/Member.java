@@ -13,6 +13,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @ToString
 @Getter
+@Setter // TODO 임시
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 

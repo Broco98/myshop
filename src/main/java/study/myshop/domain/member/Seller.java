@@ -2,10 +2,7 @@ package study.myshop.domain.member;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import study.myshop.domain.Address;
 import study.myshop.domain.item.Item;
 
@@ -50,6 +47,14 @@ public class Seller extends Member{
     public void setBusiness(String businessName, String businessInfo) {
         this.businessName = businessName;
         this.businessInfo = businessInfo;
+    }
+
+    public void increaseLikes() {
+        this.likes++;
+    }
+
+    public void decreaseLikes() {
+        this.likes--;
     }
 
 }
