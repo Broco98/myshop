@@ -17,7 +17,7 @@ public class RegularOrder {
 
     @Id
     @GeneratedValue
-    @Column("regular_order_id")
+    @Column(name = "regular_order_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
