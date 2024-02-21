@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import study.myshop.domain.Address;
 import study.myshop.domain.member.Customer;
-import study.myshop.domain.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,9 @@ public class Regular {
     @OneToMany(mappedBy = "regularOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RegularOrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "regular_delivery_id")
-    private RegularDelivery delivery;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     // 실제 주문 정보
     @OneToMany(mappedBy = "regular", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,10 +38,10 @@ public class Regular {
     private Integer totalPrice = 0;
 
 
-    public static Regular createRegular(Customer customer, RegularDelivery delivery, List<RegularOrderItem> orderItems) {
+    public static Regular createRegular(Customer customer, Address address, List<RegularOrderItem> orderItems) {
         Regular newRegular = new Regular();
         newRegular.customer = customer;
-        newRegular.delivery = delivery;
+        newRegular.address = address;
         newRegular.orderItems.addAll(orderItems);
 
         for (RegularOrderItem orderItem : orderItems) {
