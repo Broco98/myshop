@@ -2,7 +2,6 @@ package study.myshop.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
-import study.myshop.domain.Address;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @ToString
 @Getter
-@Setter // TODO 임시
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -39,7 +38,7 @@ public class Member {
 
     // 주소
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> address = new ArrayList<>();
+    private List<Address> addresses = new ArrayList<>();
 
 
     @Column(nullable = false)
@@ -48,13 +47,21 @@ public class Member {
     private LocalDateTime deleteDate;   // 탈퇴일 -> 탈퇴일이 존재할 경우 탈퇴상태
 
 
-    // == 연관관계 메서드 ==
     public void addAddress(Address address) {
-        this.address.add(address);
-        address.setMember(this);
+        addresses.add(address);
     }
 
     public void removeAddress(Address address) {
-        this.address.remove(address);
+        addresses.remove(address);
+    }
+
+    // 정지
+    public void stopUntil(LocalDateTime dateTime) {
+        stopDate = dateTime;
+    }
+    
+    // 회원 탈퇴
+    public void withdraw() {
+        deleteDate = LocalDateTime.now();
     }
 }

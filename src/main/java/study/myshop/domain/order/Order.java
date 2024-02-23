@@ -8,6 +8,7 @@ import study.myshop.domain.BasicDate;
 import study.myshop.domain.item.Item;
 import study.myshop.domain.member.Customer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name = "orders") // order는 예약어 이므로
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class Order extends BasicDate{
 
     @Id @GeneratedValue
     @Column(name = "order_id")
@@ -37,26 +38,25 @@ public class Order {
     private Delivery delivery;
 
     private Integer totalPrice = 0;
-    private BasicDate date = BasicDate.createBasicDate();
     private OrderStatus status;
 
 
     public static Order createOrder(Customer customer, Delivery delivery, List<OrderItem> orderItems) {
-        Order newOrder = new Order();
-        newOrder.customer = customer;
-        newOrder.delivery = delivery;
-        delivery.setOrder(newOrder);
+        Order order = new Order();
+        order.customer = customer;
+        order.delivery = delivery;
+        order.setCreateDate(LocalDateTime.now());
+        delivery.setOrder(order);
 
         for (OrderItem orderItem : orderItems) {
-            newOrder.orderItems.add(orderItem);
-            newOrder.totalPrice += orderItem.getOrderPrice() * orderItem.getCount();
+            order.orderItems.add(orderItem);
+            order.totalPrice += orderItem.getOrderPrice() * orderItem.getCount();
         }
-        return newOrder;
+        return order;
     }
 
     public void cancel() {
-        if (this.status.equals(OrderStatus.COMP)) {
-            // TODO -> error 생성
+        if (this.status.equals(OrderStatus.COMPLETE)) {
             throw new RuntimeException("완료된 배송은 취소할 수 없습니다.");
         }
 

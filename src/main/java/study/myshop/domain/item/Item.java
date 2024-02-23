@@ -15,7 +15,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Item {
+public class Item extends BasicDate{
 
     @Id @GeneratedValue
     @Column(name = "item_id")
@@ -38,15 +38,12 @@ public class Item {
     private Integer stock;                  // 재고
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus status;              // 판매, 중단
+    private ItemStatus status = ItemStatus.STOP; // 판매, 중단
 
     private String description;             // 설명
 
-    private Integer likes;                  // 좋아요
-    private Integer views;                  // 조회수
-
-    @Embedded
-    private BasicDate date;                 // 생성, 수정, 삭제일
+    private Integer likes = 0;                  // 좋아요
+    private Integer views = 0;                  // 조회수
 
     @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -55,7 +52,11 @@ public class Item {
     @ToString.Exclude
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemHashTag> itemHashtags = new HashSet<>();     // 태그
-    
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
     // TODO -> image 추가 예정
     
     // TODO -> item 삭제 추가 예정
@@ -63,23 +64,19 @@ public class Item {
     // == 생성자 ===
     // TODO -> image 추가 예정
     public static Item createItem(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
-        Item itemEntity = new Item();
-        itemEntity.seller = seller;
-        itemEntity.name = name;
-        itemEntity.salesQuantityGram = salesQuantityGram;
-        itemEntity.salesQuantityNum = salesQuantityNum;
-        itemEntity.originalPrice = originalPrice;
-        itemEntity.salesPrice = originalPrice;
-        itemEntity.stock = stock;
-        itemEntity.description = description;
+        Item item = new Item();
+        item.seller = seller;
+        item.name = name;
+        item.salesQuantityGram = salesQuantityGram;
+        item.salesQuantityNum = salesQuantityNum;
+        item.originalPrice = originalPrice;
+        item.salesPrice = originalPrice;
+        item.stock = stock;
+        item.description = description;
 
-        // 기본 설정
-        itemEntity.likes = 0;
-        itemEntity.views = 0;
-        itemEntity.date = BasicDate.createBasicDate();
-        itemEntity.status = ItemStatus.STOP;
+        item.setCreateDate(LocalDateTime.now());
 
-        return itemEntity;
+        return item;
     }
 
     // == 로직 ==
@@ -92,17 +89,17 @@ public class Item {
         this.description = description;
         this.salesPrice = originalPrice;
 
-        this.date.setUpdateDate(LocalDateTime.now()); // updateDate 최신화
+        this.setUpdateDate(LocalDateTime.now()); // updateDate 최신화
     }
 
     public void stopSale() {
         this.status = ItemStatus.STOP;
-        this.date.setUpdateDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     public void startSale() {
         this.status = ItemStatus.SALE;
-        this.date.setUpdateDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     public void addStock(int num) {
@@ -146,10 +143,9 @@ public class Item {
     // == 연관관계 메서드 ==
     // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
     public void addMarker(Marker marker) {
-        ItemMarker itemMarker = ItemMarker.craeteItemMarker(marker);
-        itemMarkers.add(ItemMarker.craeteItemMarker(marker));
-        itemMarker.setItem(this);
-        this.date.setUpdateDate(LocalDateTime.now()); // TODO -> MapedSuperClass로 번경?
+        ItemMarker itemMarker = ItemMarker.craeteItemMarker(this, marker);
+        itemMarkers.add(itemMarker);
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
@@ -160,18 +156,20 @@ public class Item {
 //                itemMarkers.remove(itemMarker);
 //            }
 //        }
-        this.date.setUpdateDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     public void addHashTag(String tag) {
         ItemHashTag itemHashTag = ItemHashTag.craeteItemHashTag(tag);
         itemHashtags.add(itemHashTag);
         itemHashTag.setItem(this);
-        this.date.setUpdateDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     public void removeHashTag(String tag) {
         itemHashtags.removeIf(itemHashTag -> itemHashTag.getTag().equals(tag));
-        this.date.setUpdateDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
+
+
 }

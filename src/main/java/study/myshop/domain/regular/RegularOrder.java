@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import study.myshop.domain.BasicDate;
 import study.myshop.domain.member.Customer;
 import study.myshop.domain.order.Order;
 
@@ -29,10 +30,10 @@ public class RegularOrder {
     private Order order;
 
     public static RegularOrder createRegularOrder(Order order, Regular regular) {
-        RegularOrder newRegularOrder = new RegularOrder();
-        newRegularOrder.regular = regular;
-        newRegularOrder.order = order;
-        return newRegularOrder;
+        RegularOrder regularOrder = new RegularOrder();
+        regularOrder.regular = regular;
+        regularOrder.order = order;
+        return regularOrder;
     }
 
 }

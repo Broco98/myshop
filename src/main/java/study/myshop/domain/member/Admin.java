@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @DiscriminatorValue("admin")
-@ToString(callSuper = true) // Member의 변수들도 나오도록
+@ToString(callSuper = true) // Member 변수들도 나오도록
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Admin extends Member{
-
+    
+    // 별명
     @Column(nullable = false)
-    private String nickName;        // 별명
+    private String nickName;
 
 
-    // == 생성 메서드 ==
     public static Admin createAdmin(String username, String password, String name, String phoneNumber, String nickName) {
         Admin admin = new Admin();
         admin.setUsername(username);
@@ -32,8 +32,12 @@ public class Admin extends Member{
 
         // 기본 설정
         admin.setCreateDate(LocalDateTime.now());
-        admin.setStopDate(null);
-        admin.setDeleteDate(null);
         return admin;
     }
+
+    // TODO
+    public void update() {
+
+    }
+
 }

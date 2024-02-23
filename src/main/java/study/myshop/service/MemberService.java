@@ -3,15 +3,12 @@ package study.myshop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import study.myshop.domain.Address;
+import study.myshop.domain.member.Address;
 import study.myshop.domain.member.Admin;
 import study.myshop.domain.member.Customer;
 import study.myshop.domain.member.Member;
 import study.myshop.domain.member.Seller;
-import study.myshop.repository.member.AdminRepository;
-import study.myshop.repository.member.CustomerRepository;
-import study.myshop.repository.member.MemberRepository;
-import study.myshop.repository.member.SellerRepository;
+import study.myshop.repository.member.*;
 import study.myshop.exception.MemberNotFoundException;
 
 import java.util.List;
@@ -25,6 +22,7 @@ public class MemberService {
     private final AdminRepository adminRepository;
     private final SellerRepository sellerRepository;
     private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
     public void join(Customer customer) {
         customerRepository.save(customer);
@@ -47,7 +45,6 @@ public class MemberService {
         return findMembers.get(0);
     }
 
-    // TODO -> address를 풀어서 전달 vs address 자체를 전달
     public void addAddress(Long memberId, Address address) {
         Member findMember = memberRepository.findById(memberId);
         findMember.addAddress(address);
@@ -57,6 +54,11 @@ public class MemberService {
         Member findMember = memberRepository.findById(memberId);
         findMember.removeAddress(address);
     }
+
+    // TODO -> Member를 찾고 -> Member의 Address객체를 반환해도 될 것 같은대 -> 그럼 2번 sql이 작성되는거 아닌가?
+//    public List<Address> findMyAddresses(Long memberId) {
+//        return addressRepository.findByMemberId(memberId);
+//    }
 
     public Member findById(Long id) {
         return memberRepository.findById(id);

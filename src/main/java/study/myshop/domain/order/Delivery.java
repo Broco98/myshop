@@ -2,7 +2,7 @@ package study.myshop.domain.order;
 
 import jakarta.persistence.*;
 import lombok.*;
-import study.myshop.domain.Address;
+import study.myshop.domain.member.Address;
 
 @Entity
 @Getter
@@ -14,24 +14,32 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
     @Setter
+    @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
-    private Address address;
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
 
-    public static Delivery createDelivery(Address address) {
-        Delivery newDelivery = new Delivery();
-        newDelivery.address = address;
-        newDelivery.status = DeliveryStatus.READY;
+    public static Delivery createDelivery(String address) {
+        Delivery delivery = new Delivery();
+        delivery.address = address;
+        delivery.status = DeliveryStatus.READY;
 
-        return newDelivery;
+        return delivery;
     }
+
+    public void updateStatus(DeliveryStatus status) {
+        this.status = status;
+    }
+
+    // TODO
+    public void update() {
+
+    }
+
 
 }

@@ -21,9 +21,11 @@ public class ItemMarker {
     private Marker marker;
 
     // == 생성자 ==
-    public static ItemMarker craeteItemMarker(Marker marker) {
+    public static ItemMarker craeteItemMarker(Item item, Marker marker) {
         ItemMarker itemMarker = new ItemMarker();
+        itemMarker.item = item;
         itemMarker.marker = marker;
+
         return itemMarker;
     }
 }

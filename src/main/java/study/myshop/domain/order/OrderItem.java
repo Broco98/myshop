@@ -34,15 +34,14 @@ public class OrderItem {
 
 
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        OrderItem newOrderItem = new OrderItem();
-        newOrderItem.item = item;
-        newOrderItem.orderPrice = orderPrice;
-        newOrderItem.count = count;
+        OrderItem orderItem = new OrderItem();
+        orderItem.item = item;
+        orderItem.orderPrice = orderPrice;
+        orderItem.count = count;
 
         item.removeStock(orderPrice);
-        // TODO order의 totalPrice 올리가
 
-        return newOrderItem;
+        return orderItem;
     }
 
     public void cancel() {

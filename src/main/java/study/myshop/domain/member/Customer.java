@@ -21,17 +21,18 @@ import java.util.Set;
 public class Customer extends Member{
 
     @Column(nullable = false)
-    private String nickName;        // 별명
-
+    private String nickName;
+    
+    // 좋아요-상품
     @ToString.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LikeItem> likeItems = new HashSet<>();
 
+    // 좋아요-브랜드
     @ToString.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LikeSeller> likeSellers = new HashSet<>();
 
-    // == 생성 메서드 ==
     public static Customer createCustomer(String username, String password, String name, String phoneNumber, String nickName) {
         Customer customer = new Customer();
         customer.setUsername(username);
@@ -42,8 +43,6 @@ public class Customer extends Member{
 
         // 기본 설정
         customer.setCreateDate(LocalDateTime.now());
-        customer.setStopDate(null);
-        customer.setDeleteDate(null);
         return customer;
     }
 
@@ -66,6 +65,11 @@ public class Customer extends Member{
     public void removeLikeSeller(LikeSeller likeSeller) {
         this.likeSellers.remove(likeSeller);
         likeSeller.cancel();
+    }
+
+    // TODO
+    public void update() {
+
     }
 
 }

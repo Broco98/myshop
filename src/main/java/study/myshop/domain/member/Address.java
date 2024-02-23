@@ -1,16 +1,12 @@
-package study.myshop.domain;
+package study.myshop.domain.member;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import study.myshop.domain.member.Member;
+import lombok.*;
 
 @Entity
-@ToString
 @Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
     @Id @GeneratedValue
@@ -25,12 +21,14 @@ public class Address {
     @Column(nullable = false)
     private String address;
 
-    // == 생성 메서드 ==
-    public static Address createAddress(String address) {
+
+    public static Address createAddress(Member member, String address) {
         Address addressEntity = new Address();
+        addressEntity.member = member;
         addressEntity.address = address;
 
         return addressEntity;
     }
+
 
 }

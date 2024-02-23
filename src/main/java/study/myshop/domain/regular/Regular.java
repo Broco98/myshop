@@ -4,16 +4,18 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import study.myshop.domain.Address;
+import study.myshop.domain.BasicDate;
 import study.myshop.domain.member.Customer;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Regular {
+public class Regular extends BasicDate {
 
     @Id
     @GeneratedValue
@@ -23,13 +25,12 @@ public class Regular {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    
+    // 주문 상품들
+    @OneToMany(mappedBy = "regular", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RegularItem> orderItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "regularOrder", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RegularOrderItem> orderItems = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
-    private Address address;
+    private String address;
 
     // 실제 주문 정보
     @OneToMany(mappedBy = "regular", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -37,17 +38,32 @@ public class Regular {
 
     private Integer totalPrice = 0;
 
+    // 정기 배송일
+    private LocalDate regularDeliveryDate;
 
-    public static Regular createRegular(Customer customer, Address address, List<RegularOrderItem> orderItems) {
-        Regular newRegular = new Regular();
-        newRegular.customer = customer;
-        newRegular.address = address;
-        newRegular.orderItems.addAll(orderItems);
 
-        for (RegularOrderItem orderItem : orderItems) {
-            newRegular.totalPrice += orderItem.getOrderPrice() * orderItem.getCount();
+    public static Regular createRegular(Customer customer, String address, List<RegularItem> orderItems, LocalDate regularDeliveryDate) {
+        Regular regular = new Regular();
+        regular.customer = customer;
+        regular.address = address;
+        regular.orderItems.addAll(orderItems);
+        regular.regularDeliveryDate = regularDeliveryDate;
+        regular.setCreateDate(LocalDateTime.now());
+
+        for (RegularItem orderItem : orderItems) {
+            regular.totalPrice += orderItem.getOrderPrice() * orderItem.getCount();
         }
 
-        return newRegular;
+        return regular;
+    }
+
+    // TODO
+    public void update() {
+
+    }
+
+    // TODO
+    public void remove() {
+
     }
 }
