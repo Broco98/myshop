@@ -92,6 +92,10 @@ public class Item extends BasicDate{
         this.setUpdateDate(LocalDateTime.now()); // updateDate 최신화
     }
 
+    public void remove() {
+        this.setDeleteDate(LocalDateTime.now());
+    }
+
     public void stopSale() {
         this.status = ItemStatus.STOP;
         this.setUpdateDate(LocalDateTime.now());

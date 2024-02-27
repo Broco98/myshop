@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@ToString @Getter
+@ToString
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemMarker {
 
@@ -20,7 +21,7 @@ public class ItemMarker {
     @Column(nullable = false)
     private Marker marker;
 
-    // == 생성자 ==
+
     public static ItemMarker craeteItemMarker(Item item, Marker marker) {
         ItemMarker itemMarker = new ItemMarker();
         itemMarker.item = item;

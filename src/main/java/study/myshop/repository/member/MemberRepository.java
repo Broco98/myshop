@@ -15,7 +15,7 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public List<Member> findByUsernameAndPassword(String username, String password) {
+    public List<Member> findMemberByUsernameAndPassword(String username, String password) {
         return em.createQuery("select m from Member m where username=:username and password=:password", Member.class)
                 .setParameter("username", username)
                 .setParameter("password", password)

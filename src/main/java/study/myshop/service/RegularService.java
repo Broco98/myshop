@@ -11,16 +11,17 @@ import study.myshop.domain.order.Order;
 import study.myshop.domain.order.OrderItem;
 import study.myshop.domain.regular.Regular;
 import study.myshop.domain.regular.RegularItem;
-import study.myshop.domain.regular.RegularOrderItem;
 import study.myshop.repository.member.AddressRepository;
 import study.myshop.repository.item.ItemRepository;
 import study.myshop.repository.member.CustomerRepository;
 import study.myshop.repository.order.DeliveryRepository;
 import study.myshop.repository.order.OrderRepository;
-import study.myshop.repository.regular.RegularOrderItemRepository;
+import study.myshop.repository.regular.RegularItemRepository;
 import study.myshop.repository.regular.RegularOrderRepository;
 import study.myshop.repository.regular.RegularRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import java.util.List;
 public class RegularService {
 
     private final RegularOrderRepository regularOrderRepository;
-    private final RegularOrderItemRepository regularOrderItemRepository;
+    private final RegularItemRepository regularItemRepository;
     private final AddressRepository addressRepository;
     private final CustomerRepository customerRepository;
     private final DeliveryRepository deliveryRepository;
@@ -42,7 +43,7 @@ public class RegularService {
     // TODO: 날짜 추가
     // 정기배송 생성
     @Transactional
-    public void register(Long customerId, Long[] itemIds, Integer[] counts, Address address) {
+    public void register(Long customerId, Long[] itemIds, Integer[] counts, String address, LocalDateTime regularDeliveryDate) {
 
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
         List<Item> findItemList = itemRepository.findByIdIn(itemIds);
@@ -54,7 +55,7 @@ public class RegularService {
             regularOrderItems.add(regularOrderItem);
         }
 
-        Regular regular = Regular.createRegular(findCustomer, address, regularOrderItems);
+        Regular regular = Regular.createRegular(findCustomer, address, regularOrderItems, regularDeliveryDate);
         regularRepository.save(regular);
     }
 

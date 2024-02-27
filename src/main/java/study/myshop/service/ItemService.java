@@ -38,11 +38,17 @@ public class ItemService {
     }
 
     @Transactional
-    public Long addItem(Long sellerId, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
+    public Long addItem(Long sellerId, String name, int salesQuantityGram, int salesQuantityNum, int originalPrice, int stock, String description) {
         Seller seller = sellerRepository.findById(sellerId).orElseThrow();
         Item item = Item.createItem(seller, name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
         itemRepository.save(item); // persist 일 때 id가 생성됨 (전략)
         return item.getId();
+    }
+
+    @Transactional
+    public void deleteItem(Long sellerId, Long itemId) {
+        Item findItem = itemRepository.findById(itemId);
+        findItem.remove();
     }
 
     @Transactional
@@ -57,8 +63,8 @@ public class ItemService {
     // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
     public void addMarker(Long itemId, Marker marker) {
         Item item = itemRepository.findById(itemId);
-        ItemMarker itemMarker = ItemMarker.craeteItemMarker(marker);
-        item.addMarker(marker);
+        ItemMarker itemMarker = ItemMarker.craeteItemMarker(item, marker);
+//        item.addMarker(marker);
     }
 
     @Transactional

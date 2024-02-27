@@ -43,8 +43,8 @@ public class Member {
 
     @Column(nullable = false)
     private LocalDateTime createDate;   // 가입일
-    private LocalDateTime stopDate;     // 정지일 -> 정지일이 존재할 경우 ~ 정지일 까지 정지 상태
-    private LocalDateTime deleteDate;   // 탈퇴일 -> 탈퇴일이 존재할 경우 탈퇴상태
+    private LocalDateTime suspendDate;     // 정지일 -> 정지일이 존재할 경우 ~ 정지일 까지 정지 상태
+    private LocalDateTime withdrawDate;   // 탈퇴일 -> 탈퇴일이 존재할 경우 탈퇴상태
 
 
     public void addAddress(Address address) {
@@ -64,4 +64,5 @@ public class Member {
     public void withdraw() {
         deleteDate = LocalDateTime.now();
     }
+
 }

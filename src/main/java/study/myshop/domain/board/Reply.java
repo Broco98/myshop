@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Reply{
+public class Reply {
 
     @Id
     @GeneratedValue
@@ -42,7 +42,9 @@ public class Reply{
     }
 
     public void removeAll() {
-
+        for (Comment comment : child) {
+            comment.remove();
+        }
     }
 
     public void addComment(Comment comment) {

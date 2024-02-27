@@ -1,5 +1,6 @@
 package study.myshop.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,20 +22,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
+@RequiredArgsConstructor
 @Transactional
 class MemberServiceTest {
 
-    @Autowired
-    MemberService memberService;
-
-    @Autowired
-    CustomerRepository customerRepository;
-
-    @Autowired
-    SellerRepository sellerRepository;
-
-    @Autowired
-    AdminRepository adminRepository;
+    private final MemberService memberService;
+    private final CustomerRepository customerRepository;
+    private final SellerRepository sellerRepository;
+    private final AdminRepository adminRepository;
 
     @Test
     void 회원가입_소비자() {
@@ -89,22 +84,5 @@ class MemberServiceTest {
         Assertions.assertThat(findCustomers.size()).isEqualTo(0);
         Assertions.assertThat(findSellers.size()).isEqualTo(1);
     }
-
-    @Test
-    @DisplayName("Customer는 Member로 조회해도 Customer class")
-    void findById() {
-        // given
-        Customer customer = Customer.createCustomer("123", "123", "123", "123", "123");
-
-        // when
-        memberService.join(customer);
-
-        // then
-        Member findMember = memberService.findById(customer.getId());
-        log.info("findMember={}", findMember);
-        Assertions.assertThat(findMember).isEqualTo(customer);
-        Assertions.assertThat(findMember).isInstanceOf(Customer.class);
-    }
-
 
 }

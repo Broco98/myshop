@@ -39,10 +39,10 @@ public class Regular extends BasicDate {
     private Integer totalPrice = 0;
 
     // 정기 배송일
-    private LocalDate regularDeliveryDate;
+    private LocalDateTime regularDeliveryDate;
 
 
-    public static Regular createRegular(Customer customer, String address, List<RegularItem> orderItems, LocalDate regularDeliveryDate) {
+    public static Regular createRegular(Customer customer, String address, List<RegularItem> orderItems, LocalDateTime regularDeliveryDate) {
         Regular regular = new Regular();
         regular.customer = customer;
         regular.address = address;

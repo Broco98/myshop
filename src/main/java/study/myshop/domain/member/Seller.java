@@ -37,14 +37,15 @@ public class Seller extends Member{
     }
 
     // 상호명, 상호정보 설정
-    public void setBusiness(String businessName, String businessInfo) {
+    public void updateBusiness(String businessName, String businessInfo) {
         this.businessName = businessName;
         this.businessInfo = businessInfo;
     }
 
     // TODO
-    public void update() {
-
+    public void update(String name, String phoneNumber) {
+        this.setName(name);
+        this.setPhoneNumber(phoneNumber);
     }
 
     public void increaseLikes() {

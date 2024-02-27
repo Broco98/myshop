@@ -30,5 +30,8 @@ public class Address {
         return addressEntity;
     }
 
+    public void updateAddress(String address) {
+        this.address = address;
+    }
 
 }

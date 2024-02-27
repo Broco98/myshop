@@ -51,8 +51,13 @@ public class Comment extends BasicDate {
         this.setUpdateDate(LocalDateTime.now());
     }
 
+    public void remove(Comment comment) {
+        this.reply.remove(comment);
+        comment.remove();
+    }
+
     public void remove() {
-        this.reply.remove();
+        this.reply.removeAll();
         this.setDeleteDate(LocalDateTime.now());
     }
 

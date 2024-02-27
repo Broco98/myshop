@@ -35,9 +35,10 @@ public class Admin extends Member{
         return admin;
     }
 
-    // TODO
-    public void update() {
-
+    public void update(String name, String phoneNumber, String nickName) {
+        this.setName(name);
+        this.setPhoneNumber(phoneNumber);
+        this.nickName = nickName;
     }
 
 }
