@@ -1,10 +1,7 @@
 package study.myshop.domain.item;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import study.myshop.domain.BasicDate;
 import study.myshop.domain.member.Seller;
 
@@ -21,6 +18,7 @@ public class Item extends BasicDate{
     @Column(name = "item_id")
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Seller seller;

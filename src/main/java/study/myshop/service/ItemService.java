@@ -9,6 +9,7 @@ import study.myshop.domain.item.ItemHashTag;
 import study.myshop.domain.item.ItemMarker;
 import study.myshop.domain.item.Marker;
 import study.myshop.domain.member.Seller;
+import study.myshop.dto.item.ItemUpdateParam;
 import study.myshop.repository.item.ItemHashTagRepository;
 import study.myshop.repository.item.ItemMarkerRepository;
 import study.myshop.repository.item.ItemRepository;
@@ -38,11 +39,17 @@ public class ItemService {
     }
 
     @Transactional
-    public Long addItem(Long sellerId, String name, int salesQuantityGram, int salesQuantityNum, int originalPrice, int stock, String description) {
+    public Long addItem(Long sellerId, Item item) {
         Seller seller = sellerRepository.findById(sellerId).orElseThrow();
-        Item item = Item.createItem(seller, name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
+        item.setSeller(seller);
         itemRepository.save(item); // persist 일 때 id가 생성됨 (전략)
         return item.getId();
+    }
+
+    @Transactional
+    // TODO
+    public void updateItem(Long sellerId, Long itemId, ItemUpdateParam updateParam) {
+
     }
 
     @Transactional
