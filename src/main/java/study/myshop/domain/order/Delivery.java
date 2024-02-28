@@ -2,7 +2,6 @@ package study.myshop.domain.order;
 
 import jakarta.persistence.*;
 import lombok.*;
-import study.myshop.domain.member.Address;
 
 @Entity
 @Getter

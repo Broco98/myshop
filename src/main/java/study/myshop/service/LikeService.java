@@ -27,7 +27,6 @@ public class LikeService {
     private final CustomerRepository customerRepository;
     private final SellerRepository sellerRepository;
 
-
     @Transactional
     public void addLikeItem(Long customerId, Long itemId) {
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();

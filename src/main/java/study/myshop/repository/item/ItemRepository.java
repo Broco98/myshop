@@ -33,4 +33,12 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public Item findByIdWithSeller(Long id) {
+        return em.createQuery(
+                "select i from Item i" +
+                        " join fetch i.seller s" +
+                        " where i.id=:id", Item.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }

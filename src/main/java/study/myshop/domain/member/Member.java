@@ -2,6 +2,7 @@ package study.myshop.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import study.myshop.domain.Address;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,12 +58,12 @@ public class Member {
 
     // 정지
     public void stopUntil(LocalDateTime dateTime) {
-        stopDate = dateTime;
+        suspendDate = dateTime;
     }
     
     // 회원 탈퇴
     public void withdraw() {
-        deleteDate = LocalDateTime.now();
+        withdrawDate = LocalDateTime.now();
     }
 
 }

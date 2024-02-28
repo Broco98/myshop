@@ -3,7 +3,6 @@ package study.myshop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import study.myshop.domain.member.Address;
 import study.myshop.domain.member.Admin;
 import study.myshop.domain.member.Customer;
 import study.myshop.domain.member.Member;

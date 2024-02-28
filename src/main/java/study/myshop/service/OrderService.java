@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import study.myshop.domain.member.Address;
 import study.myshop.domain.item.Item;
 import study.myshop.domain.member.Customer;
 import study.myshop.domain.order.Delivery;
 import study.myshop.domain.order.Order;
 import study.myshop.domain.order.OrderItem;
-import study.myshop.repository.member.AddressRepository;
 import study.myshop.repository.item.ItemRepository;
 import study.myshop.repository.member.CustomerRepository;
 import study.myshop.repository.order.OrderRepository;
@@ -29,7 +27,7 @@ public class OrderService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public Long order(Long customerId, Long[] itemIds, String address, Integer[] counts) {
+    public Long addOrder(Long customerId, Long[] itemIds, String address, Integer[] counts) {
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
         List<Item> findItems = itemRepository.findByIdIn(itemIds);
 
@@ -49,8 +47,13 @@ public class OrderService {
     }
 
     @Transactional
-    public void cancelOrder(Long orderId) {
+    public void cancelOrder(Long customerId, Long orderId) {
         Order findOrder = orderRepository.findById(orderId);
+
+        if (findOrder.getCustomer().getId() != customerId) {
+            throw new RuntimeException("올바르지 않은 접근");
+        }
+
         findOrder.cancel();
     }
 

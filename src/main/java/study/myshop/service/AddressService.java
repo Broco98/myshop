@@ -3,13 +3,12 @@ package study.myshop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import study.myshop.domain.member.Address;
+import study.myshop.domain.Address;
 import study.myshop.domain.member.Customer;
-import study.myshop.repository.member.AddressRepository;
+import study.myshop.repository.AddressRepository;
 import study.myshop.repository.member.CustomerRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,13 +29,14 @@ public class AddressService {
 
     @Transactional
     public void removeAddress(Long customerId, Long addressId) {
+        
+        // Cascade를 사용해도 어차피 쿼리가 2번 나가는건 같으니까 나눠서 쿼리 진행
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
         Address findAddress = addressRepository.findById(addressId).orElseThrow();
 
         checkCustomerAddress(findCustomer, findAddress);
 
         findCustomer.getAddresses().remove(findAddress);
-
     }
 
     @Transactional

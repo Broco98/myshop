@@ -1,7 +1,8 @@
-package study.myshop.domain.member;
+package study.myshop.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import study.myshop.domain.member.Member;
 
 @Entity
 @Getter

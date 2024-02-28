@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @ToString
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemMarker {
 
@@ -22,9 +23,8 @@ public class ItemMarker {
     private Marker marker;
 
 
-    public static ItemMarker craeteItemMarker(Item item, Marker marker) {
+    public static ItemMarker craeteItemMarker(Marker marker) {
         ItemMarker itemMarker = new ItemMarker();
-        itemMarker.item = item;
         itemMarker.marker = marker;
 
         return itemMarker;

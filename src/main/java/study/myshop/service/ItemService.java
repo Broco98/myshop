@@ -15,8 +15,11 @@ import study.myshop.repository.item.ItemMarkerRepository;
 import study.myshop.repository.item.ItemRepository;
 import study.myshop.repository.member.SellerRepository;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -39,59 +42,71 @@ public class ItemService {
     }
 
     @Transactional
-    public Long addItem(Long sellerId, Item item) {
+    public Long addItem(Long sellerId, Item item, List<Marker> markers, List<String> hashtags) {
         Seller seller = sellerRepository.findById(sellerId).orElseThrow();
         item.setSeller(seller);
+
+        Set<ItemMarker> itemMarkers = markers.stream()
+                .map(ItemMarker::craeteItemMarker)
+                .collect(Collectors.toSet());
+        item.changeItemMarkers(itemMarkers);
+
+        Set<ItemHashTag> itemHashTags = hashtags.stream()
+                .map(ItemHashTag::craeteItemHashTag)
+                .collect(Collectors.toSet());
+        item.changeItemHashTags(itemHashTags);
+
         itemRepository.save(item); // persist 일 때 id가 생성됨 (전략)
         return item.getId();
     }
 
     @Transactional
-    // TODO
-    public void updateItem(Long sellerId, Long itemId, ItemUpdateParam updateParam) {
+    public void updateItem(Long sellerId, Long itemId, ItemUpdateParam updateParam, List<Marker> markers, List<String> hashtags) {
+        Item findItem = itemRepository.findByIdWithSeller(itemId);
 
+        if (findItem.getSeller().getId() != sellerId) {
+            throw new RuntimeException("올바르지 않은 접근");
+        }
+
+        findItem.update(
+                updateParam.getName(),
+                updateParam.getSalesQuantityGram(),
+                updateParam.getSalesQuantityNum(),
+                updateParam.getOriginalPrice(),
+                updateParam.getStock(),
+                updateParam.getDescription());
+
+        Set<ItemMarker> itemMarkers = markers.stream()
+                .map(ItemMarker::craeteItemMarker)
+                .collect(Collectors.toSet());
+        findItem.changeItemMarkers(itemMarkers);
+
+        Set<ItemHashTag> itemHashTags = hashtags.stream()
+                .map(ItemHashTag::craeteItemHashTag)
+                .collect(Collectors.toSet());
+        findItem.changeItemHashTags(itemHashTags);
+    }
+
+    @Transactional
+    public void updateItemStock(Long sellerId, Long itemId, int stock) {
+        Item findItem = itemRepository.findByIdWithSeller(itemId);
+
+        if (findItem.getSeller().getId() != sellerId) {
+            throw new RuntimeException("올바르지 않은 접근");
+        }
+
+        findItem.updateStock(stock);
     }
 
     @Transactional
     public void deleteItem(Long sellerId, Long itemId) {
-        Item findItem = itemRepository.findById(itemId);
+        Item findItem = itemRepository.findByIdWithSeller(itemId);
+
+        if (findItem.getSeller().getId() != sellerId) {
+            throw new RuntimeException("올바르지 않은 접근");
+        }
+
         findItem.remove();
-    }
-
-    @Transactional
-    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
-    public void updateItem(Long itemId, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
-        Item item = itemRepository.findById(itemId);
-        item.update(name, salesQuantityGram, salesQuantityNum, originalPrice, stock, description);
-    }
-
-    @Transactional
-    // 하나의 마커를 추가
-    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
-    public void addMarker(Long itemId, Marker marker) {
-        Item item = itemRepository.findById(itemId);
-        ItemMarker itemMarker = ItemMarker.craeteItemMarker(item, marker);
-//        item.addMarker(marker);
-    }
-
-    @Transactional
-    // TODO -> 만약에 marker를 한번에 업데이트 하도록 수정한다면, updateItem에 포함시키자
-    public void removeMarker(Long itemId, Marker marker) {
-        Item item = itemRepository.findById(itemId);
-        item.removeMarker(marker);
-    }
-
-    @Transactional
-    // 하나의 해시태그 추가
-    public void addHashTag(Long itemId, String tag) {
-        Item item = itemRepository.findById(itemId);
-        item.addHashTag(tag);
-    }
-
-    @Transactional
-    public void removeHashTag(Long itemId, String tag) {
-        Item item = itemRepository.findById(itemId);
-        item.addHashTag(tag);
     }
 
     @Transactional

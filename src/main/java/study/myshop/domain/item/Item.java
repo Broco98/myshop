@@ -12,9 +12,10 @@ import java.util.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Item extends BasicDate{
+public class Item extends BasicDate {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 
@@ -25,7 +26,7 @@ public class Item extends BasicDate{
 
     @Column(nullable = false)
     private String name;                    // 상품명
-    
+
     // TODO -> [판매수량 / 판매가격] 세트로 만들 순 없나? 보통 쇼핑몰을 보면 그렇게 진행하는 것 같은대
     // ex [1개 3만원], [2개, 5만원] 이런 식으로 선택하도록 -> 고민해 봅시다
     private Integer salesQuantityGram;      // 판매 수량 (단위: gram)
@@ -56,10 +57,10 @@ public class Item extends BasicDate{
     private List<Review> reviews = new ArrayList<>();
 
     // TODO -> image 추가 예정
-    
+
     // TODO -> item 삭제 추가 예정
-    
-    // == 생성자 ===
+
+
     // TODO -> image 추가 예정
     public static Item createItem(Seller seller, String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         Item item = new Item();
@@ -77,7 +78,7 @@ public class Item extends BasicDate{
         return item;
     }
 
-    // == 로직 ==
+
     public void update(String name, Integer salesQuantityGram, Integer salesQuantityNum, Integer originalPrice, Integer stock, String description) {
         this.name = name;
         this.salesQuantityGram = salesQuantityGram;
@@ -90,6 +91,7 @@ public class Item extends BasicDate{
         this.setUpdateDate(LocalDateTime.now()); // updateDate 최신화
     }
 
+    // TODO
     public void remove() {
         this.setDeleteDate(LocalDateTime.now());
     }
@@ -106,6 +108,11 @@ public class Item extends BasicDate{
 
     public void addStock(int num) {
         stock += num;
+    }
+
+    public void updateStock(int stock) {
+        this.stock = stock;
+        setUpdateDate(LocalDateTime.now());
     }
 
     public void removeStock(int num) {
@@ -142,36 +149,21 @@ public class Item extends BasicDate{
         this.likes--;
     }
 
-    // == 연관관계 메서드 ==
-    // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
-    public void addMarker(Marker marker) {
-        ItemMarker itemMarker = ItemMarker.craeteItemMarker(this, marker);
-        itemMarkers.add(itemMarker);
+    public void changeItemMarkers(Set<ItemMarker> itemMarkers) {
+        this.itemMarkers = itemMarkers;
+        for (ItemMarker marker : itemMarkers) {
+            marker.setItem(this);
+        }
         this.setUpdateDate(LocalDateTime.now());
     }
 
-    // TODO -> marker는 고정된 갯수이므로 addMarker가 필요할가? updateMarker로 한번에 최신화 하는게 맞는것 같다.
-    public void removeMarker(Marker marker) {
-        itemMarkers.removeIf(itemMarker -> itemMarker.getMarker() == marker);
-//        for (ItemMarker itemMarker : itemMarkers) {
-//            if (itemMarker.getMarker() == marker) {
-//                itemMarkers.remove(itemMarker);
-//            }
-//        }
+    public void changeItemHashTags(Set<ItemHashTag> itemHashTags) {
+        this.itemHashtags = itemHashTags;
+        ;
+        for (ItemHashTag tag : itemHashTags) {
+            tag.setItem(this);
+        }
         this.setUpdateDate(LocalDateTime.now());
     }
-
-    public void addHashTag(String tag) {
-        ItemHashTag itemHashTag = ItemHashTag.craeteItemHashTag(tag);
-        itemHashtags.add(itemHashTag);
-        itemHashTag.setItem(this);
-        this.setUpdateDate(LocalDateTime.now());
-    }
-
-    public void removeHashTag(String tag) {
-        itemHashtags.removeIf(itemHashTag -> itemHashTag.getTag().equals(tag));
-        this.setUpdateDate(LocalDateTime.now());
-    }
-
 
 }

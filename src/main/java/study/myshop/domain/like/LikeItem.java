@@ -35,5 +35,4 @@ public class LikeItem {
     public void cancel() {
         this.item.decreaseLikes();
     }
-
 }

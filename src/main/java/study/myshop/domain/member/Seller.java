@@ -3,8 +3,11 @@ package study.myshop.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import study.myshop.domain.item.Item;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("seller")
@@ -18,6 +21,10 @@ public class Seller extends Member{
 
     // 상호정보
     private String businessInfo;
+
+    // 상품
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items = new ArrayList<>();
 
     // 좋아요 수
     private int likes;
