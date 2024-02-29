@@ -57,13 +57,19 @@ public class Regular extends BasicDate {
         return regular;
     }
 
-    // TODO
-    public void update() {
+    public void update(String address, List<RegularItem> orderItems, LocalDateTime regularDeliveryDate) {
+        this.address = address;
+        this.orderItems = orderItems;
+        this.regularDeliveryDate = regularDeliveryDate;
+        this.setUpdateDate(LocalDateTime.now());
 
+        this.totalPrice = 0; // 초기화
+        for (RegularItem orderItem : orderItems) {
+            this.totalPrice += orderItem.getOrderPrice() * orderItem.getCount();
+        }
     }
 
-    // TODO
-    public void remove() {
-
+    public void cancel() {
+        this.setDeleteDate(LocalDateTime.now());
     }
 }

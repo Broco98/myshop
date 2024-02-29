@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.cglib.core.Local;
 import study.myshop.domain.BasicDate;
 import study.myshop.domain.member.Member;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,8 +31,13 @@ public class Comment extends BasicDate {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToOne
-    private Reply reply;
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    private List<Comment> children = new ArrayList<>();
 
     @Lob
     private String content;
@@ -40,7 +48,6 @@ public class Comment extends BasicDate {
         comment.member = member;
         comment.post = post;
         comment.content = content;
-        comment.reply = Reply.createReply(comment);
         comment.setCreateDate(LocalDateTime.now());
 
         return comment;
@@ -51,13 +58,12 @@ public class Comment extends BasicDate {
         this.setUpdateDate(LocalDateTime.now());
     }
 
-    public void remove(Comment comment) {
-        this.reply.remove(comment);
-        comment.remove();
+    public void reply(Comment comment) {
+        comment.setParent(this);
+        children.add(comment);
     }
 
     public void remove() {
-        this.reply.removeAll();
         this.setDeleteDate(LocalDateTime.now());
     }
 

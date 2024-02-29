@@ -1,6 +1,7 @@
 package study.myshop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.myshop.domain.item.Item;
@@ -38,10 +39,9 @@ public class RegularService {
     private final RegularRepository regularRepository;
 
 
-    // TODO: 날짜 추가
-    // 정기배송 생성
+    // 정기배송 등록
     @Transactional
-    public void register(Long customerId, Long[] itemIds, Integer[] counts, String address, LocalDateTime regularDeliveryDate) {
+    public void registerRegular(Long customerId, Long[] itemIds, Integer[] counts, String address, LocalDateTime regularDeliveryDate) {
 
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
         List<Item> findItemList = itemRepository.findByIdIn(itemIds);
@@ -57,39 +57,51 @@ public class RegularService {
         regularRepository.save(regular);
     }
 
-    // 정기배송 삭제
+    // 정기배송 취소
     @Transactional
-    public void cancel(Long regularId) {
+    public void cancelRegular(Long customerId, Long regularId) {
+        Regular findRegular = regularRepository.findById(regularId).orElseThrow();
 
+        if (findRegular.getCustomer().getId() != customerId) {
+            throw new RuntimeException("올바르지 않은 접근");
+        }
+
+        findRegular.cancel();
     }
 
     // 정기배송 수정
+    @Transactional
+    public void updateRegular(Long customerId, Long regularId, Long[] itemIds, Integer[] counts, String address, LocalDateTime regularDeliveryDate) {
 
-    // 정기배송 시작
-    public void order(Long regularId) {
-        Regular regular = regularRepository.findById(regularId).orElseThrow();
+        Regular findRegular = regularRepository.findById(regularId).orElseThrow();
 
-        // TODO: 일정 확인
-
-        Delivery delivery = Delivery.createDelivery(regular.getAddress());
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (RegularItem item : regular.getOrderItems()) {
-            OrderItem orderItem = OrderItem.createOrderItem(item.getItem(), item.getOrderPrice(), item.getCount());
-            orderItems.add(orderItem);
+        if (findRegular.getCustomer().getId() != customerId) {
+            throw new RuntimeException("올바르지 않은 접근");
         }
-        Order order = Order.createOrder(regular.getCustomer(), delivery, orderItems);
 
-        orderRepository.save(order);
+        List<Item> findItemList = itemRepository.findByIdIn(itemIds);
+
+        List<RegularItem> regularOrderItems = new ArrayList<>();
+        int index = 0;
+        for (Item findItem : findItemList) {
+            RegularItem regularOrderItem = RegularItem.createRegularItem(findItem, findItem.getSalesPrice(), counts[index++]);
+            regularOrderItems.add(regularOrderItem);
+        }
+
+        findRegular.update(address, regularOrderItems, regularDeliveryDate);
+    }
+
+    // TODO: 어떻게 일정 시간마다 주문으로 바꿀 수 있는지 공부가 필요함
+    // 정기배송 시작
+    // @Scheduled()
+    public void processOrder(Long regularId) {
+
     }
 
 
     public Regular findById(Long regularId) {
         return regularRepository.findById(regularId).orElseThrow();
     }
-
-
-    // 정기배송 실제 배송 조회
-
 
 
 }

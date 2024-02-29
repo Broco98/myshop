@@ -38,9 +38,14 @@ public class Notice extends BasicDate {
         return notice;
     }
 
-    public void update(String title, String content) {
+    public void update(Admin admin, String title, String content) {
+        this.admin = admin;
         this.title = title;
         this.content = content;
         this.setUpdateDate(LocalDateTime.now());
+    }
+
+    public void remove() {
+        this.setDeleteDate(LocalDateTime.now());
     }
 }

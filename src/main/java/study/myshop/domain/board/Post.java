@@ -46,6 +46,16 @@ public class Post extends BasicDate {
         return post;
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.setUpdateDate(LocalDateTime.now());
+    }
+
+    public void remove() {
+        this.setDeleteDate(LocalDateTime.now());
+    }
+
     public void addComment(Comment comment) {
         comments.add(comment);
     }

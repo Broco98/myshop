@@ -48,7 +48,7 @@ public class OrderService {
 
     @Transactional
     public void cancelOrder(Long customerId, Long orderId) {
-        Order findOrder = orderRepository.findById(orderId);
+        Order findOrder = orderRepository.findById(orderId); // 그냥 쿼리 2번 날리자.
 
         if (findOrder.getCustomer().getId() != customerId) {
             throw new RuntimeException("올바르지 않은 접근");
@@ -56,6 +56,7 @@ public class OrderService {
 
         findOrder.cancel();
     }
+
 
     public List<Order> findMyOrders(Long customerId) {
         return orderRepository.findByCustomerId(customerId);
